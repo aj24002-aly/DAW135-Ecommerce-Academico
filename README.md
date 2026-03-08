@@ -71,4 +71,4 @@ Este proyecto propone un sistema de ecommerce académico que permite centralizar
 * Douglas Alexander Pérez Bonilla - PB24016
 *
 *
-*
+* Medardo Oseas Villalobos Melendez - VM24009
