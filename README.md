@@ -70,5 +70,5 @@ Este proyecto propone un sistema de ecommerce académico que permite centralizar
 * Alyson Pamela Alvarado Jovel - AJ24002 (LIDER)
 * Douglas Alexander Pérez Bonilla - PB24016
 *
-*
+* Larry Omar Mancia Flamenco - MF22012
 *
