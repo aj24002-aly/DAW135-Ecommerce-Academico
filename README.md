@@ -67,7 +67,7 @@ Este proyecto propone un sistema de ecommerce académico que permite centralizar
 
 ## Integrantes
 
-* Alyson Pamela Alvarado Jovel - AJ24002
+* Alyson Pamela Alvarado Jovel - AJ24002 (LIDER)
 *
 *
 *
