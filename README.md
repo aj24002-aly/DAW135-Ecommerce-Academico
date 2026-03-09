@@ -69,6 +69,6 @@ Este proyecto propone un sistema de ecommerce académico que permite centralizar
 
 * Alyson Pamela Alvarado Jovel - AJ24002 (LIDER)
 * Douglas Alexander Pérez Bonilla - PB24016
-*
+* Carlos Elias Sanchez Villalobos - sv24006
 *
 * Medardo Oseas Villalobos Melendez - VM24009
