@@ -1,44 +1,52 @@
 package backend.controller;
 
-import backend.entity.Usuario;
-import backend.repository.UsuarioRepository;
+import backend.dto.UsuarioDTO;
+import backend.service.UsuarioService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/usuarios")
+@Tag(name = "Usuarios", description = "Gestión de usuarios")
 public class UsuarioController {
 
-    private final UsuarioRepository repo;
+    private final UsuarioService service;
 
-    public UsuarioController(UsuarioRepository repo) {
-        this.repo = repo;
+    public UsuarioController(UsuarioService service) {
+        this.service = service;
     }
 
     @GetMapping
-    public List<Usuario> obtenerTodos() {
-        return repo.findAll();
+    @Operation(summary = "Listar usuarios")
+    public List<UsuarioDTO> obtenerTodos() {
+        return service.obtenerTodos();
     }
 
     @GetMapping("/{id}")
-    public Usuario obtenerPorId(@PathVariable Long id) {
-        return repo.findById(id).orElse(null);
+    @Operation(summary = "Obtener usuario por ID")
+    public UsuarioDTO obtenerPorId(@PathVariable Long id) {
+        return service.obtenerPorId(id);
     }
 
     @PostMapping
-    public Usuario crear(@RequestBody Usuario usuario) {
-        return repo.save(usuario);
+    @Operation(summary = "Crear usuario")
+    public UsuarioDTO crear(@RequestBody UsuarioDTO dto) {
+        return service.crear(dto);
     }
 
     @PutMapping("/{id}")
-    public Usuario actualizar(@PathVariable Long id, @RequestBody Usuario usuario) {
-        usuario.setId(id);
-        return repo.save(usuario);
+    @Operation(summary = "Actualizar usuario")
+    public UsuarioDTO actualizar(@PathVariable Long id, @RequestBody UsuarioDTO dto) {
+        return service.actualizar(id, dto);
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Eliminar usuario")
     public void eliminar(@PathVariable Long id) {
-        repo.deleteById(id);
+        service.eliminar(id);
     }
 }
