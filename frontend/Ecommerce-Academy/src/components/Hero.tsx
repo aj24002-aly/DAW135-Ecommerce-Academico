@@ -37,14 +37,6 @@ const Hero: React.FC = () => {
 
           <div className="hero__actions">
 
-            {/* Modificado: Únete gratis también debería pedir registro si no está logueado */}
-            <button 
-              className="btn btn--primary"
-              onClick={() => handleNavigation("/landing")} // O a la ruta del estudiante
-            >
-              Únete gratis
-            </button>
-
             {/* Botón Admin protegido por función */}
             <button
               className="btn btn--admin"

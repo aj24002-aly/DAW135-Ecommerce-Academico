@@ -39,7 +39,7 @@ function LoginForm() {
 
       <button
         className="auth-button"
-        onClick={() => navigate('/landing')}  
+        onClick={() => navigate('/admin')}  
       >
         Iniciar sesión
       </button>
