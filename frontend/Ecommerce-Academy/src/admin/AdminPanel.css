@@ -1,0 +1,370 @@
+/* ============================================================
+   ADMIN PANEL LAYOUT
+   ============================================================ */
+
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+
+  color: #202124;
+  background: #f8f9fa;
+
+  overflow: hidden;
+}
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+
+.admin-sidebar {
+  width: 150px;
+
+  background: linear-gradient(
+    180deg,
+    #1a9e96 0%,
+    #2ebcb3 100%
+  );
+
+  display: flex;
+  flex-direction: column;
+
+  flex-shrink: 0;
+
+  position: sticky;
+  top: 0;
+
+  height: 100vh;
+
+  z-index: 100;
+}
+
+.admin-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 22px 18px;
+
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+
+.admin-brand-icon {
+  font-size: 24px;
+}
+
+.admin-brand-name {
+  font-weight: 700;
+  font-size: 16px;
+  color: #fff;
+}
+
+.admin-brand-sub {
+  font-size: 11px;
+  color: rgba(255,255,255,0.75);
+}
+
+.admin-nav {
+  padding: 14px 10px;
+
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.admin-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 12px 14px;
+
+  border-radius: 12px;
+
+  color: rgba(255,255,255,0.85);
+
+  cursor: pointer;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  background: transparent;
+  border: none;
+
+  width: 100%;
+  text-align: left;
+
+  transition:
+    background 0.2s,
+    transform 0.2s,
+    color 0.2s;
+
+  font-family: inherit;
+}
+
+.admin-nav-item:hover {
+  background: rgba(255,255,255,0.16);
+
+  color: #fff;
+
+  transform: translateX(4px);
+}
+
+.admin-nav-item.active {
+  background: rgba(255,255,255,0.22);
+
+  color: #fff;
+
+  font-weight: 600;
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.12);
+}
+
+.admin-sidebar-footer {
+  padding: 12px;
+
+  border-top:
+    1px solid rgba(255,255,255,0.15);
+}
+
+/* ============================================================
+   MAIN
+   ============================================================ */
+
+.admin-main {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+}
+
+/* ============================================================
+   TOPBAR
+   ============================================================ */
+
+.admin-topbar {
+  background: #fff;
+
+  border-bottom: 1px solid #edf0f2;
+
+  padding: 18px 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  flex-wrap: wrap;
+  gap: 12px;
+
+  flex-shrink: 0;
+}
+
+.admin-topbar-title {
+  font-size: 20px;
+  font-weight: 700;
+
+  margin: 0;
+
+  color: #202124;
+}
+
+.admin-topbar-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-endpoint-hint {
+  font-size: 12px;
+  color: #9aa0a6;
+}
+
+.admin-endpoint-hint code {
+  background: #f1f3f4;
+
+  padding: 4px 8px;
+
+  border-radius: 6px;
+
+  font-size: 11px;
+
+  color: #1a9e96;
+}
+
+/* ============================================================
+   CONTENT
+   ============================================================ */
+
+.admin-content {
+  padding: 28px;
+
+  flex: 1;
+
+  overflow-y: auto;
+}
+
+/* ============================================================
+   TABLES / CARDS RESPONSIVE
+   ============================================================ */
+
+.admin-card,
+.admin-table-wrapper {
+  width: 100%;
+
+  overflow-x: auto;
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+
+.admin-content::-webkit-scrollbar,
+.admin-nav::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.admin-content::-webkit-scrollbar-thumb,
+.admin-nav::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.15);
+
+  border-radius: 20px;
+}
+
+/* ============================================================
+   TABLETS
+   ============================================================ */
+
+@media (max-width: 992px) {
+
+  .admin-sidebar {
+    width: 210px;
+  }
+
+  .admin-topbar {
+    padding: 16px 20px;
+  }
+
+  .admin-content {
+    padding: 20px;
+  }
+}
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 768px) {
+
+  .admin-layout {
+    flex-direction: column;
+  }
+
+  /* SIDEBAR */
+
+  .admin-sidebar {
+    width: 100%;
+
+    height: auto;
+
+    position: relative;
+  }
+
+  .admin-brand {
+    justify-content: center;
+
+    text-align: center;
+  }
+
+  /* NAV */
+
+  .admin-nav {
+    flex-direction: row;
+
+    overflow-x: auto;
+
+    overflow-y: hidden;
+
+    padding: 10px;
+
+    gap: 10px;
+
+    scrollbar-width: none;
+  }
+
+  .admin-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .admin-nav-item {
+    min-width: max-content;
+
+    justify-content: center;
+
+    border-radius: 999px;
+
+    padding: 10px 18px;
+
+    font-size: 13px;
+
+    white-space: nowrap;
+  }
+
+  .admin-nav-item:hover {
+    transform: none;
+  }
+
+  .admin-sidebar-footer {
+    display: none;
+  }
+
+  /* TOPBAR */
+
+  .admin-topbar {
+    padding: 16px;
+
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .admin-topbar-title {
+    font-size: 18px;
+  }
+
+  /* CONTENT */
+
+  .admin-content {
+    padding: 16px;
+  }
+}
+
+/* ============================================================
+   SMALL MOBILE
+   ============================================================ */
+
+@media (max-width: 480px) {
+
+  .admin-brand-name {
+    font-size: 15px;
+  }
+
+  .admin-topbar-title {
+    font-size: 16px;
+  }
+
+  .admin-endpoint-hint {
+    font-size: 11px;
+  }
+
+  .admin-content {
+    padding: 14px;
+  }
+}
