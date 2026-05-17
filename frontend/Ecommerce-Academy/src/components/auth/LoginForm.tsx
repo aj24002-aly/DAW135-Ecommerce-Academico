@@ -1,7 +1,10 @@
+import { useNavigate } from 'react-router-dom'  
 import InputField from './InputField'
 import AuthTabs from './AuthTabs'
 
 function LoginForm() {
+  const navigate = useNavigate()  
+
   return (
     <div className="form-container">
 
@@ -27,19 +30,17 @@ function LoginForm() {
       />
 
       <div className="remember-row">
-
         <div>
           <input type="checkbox" />
           <span>Recordarme</span>
         </div>
-
-        <a href="#">
-          ¿Olvidaste tu contraseña?
-        </a>
-
+        <a href="#">¿Olvidaste tu contraseña?</a>
       </div>
 
-      <button className="auth-button">
+      <button
+        className="auth-button"
+        onClick={() => navigate('/landing')}  
+      >
         Iniciar sesión
       </button>
 
