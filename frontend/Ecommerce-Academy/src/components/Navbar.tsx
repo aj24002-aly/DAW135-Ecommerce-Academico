@@ -1,10 +1,7 @@
 // components/Navbar.tsx
-import React, { useState } from "react";
-import { NAV_LINKS } from "../data";
 import { Link } from "react-router-dom";
 
 const Navbar: React.FC = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <nav className="navbar">
@@ -21,21 +18,7 @@ const Navbar: React.FC = () => {
           </span>
         </Link>
 
-        {/* LINKS */}
-        <ul className={`navbar__links ${menuOpen ? "open" : ""}`}>
-          {NAV_LINKS
-            .filter((l) => !l.isButton)
-            .map((link) => (
-              <li key={link.label}>
-                <a
-                  href={link.href}
-                  className="navbar__link"
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
-        </ul>
+       
 
         {/* ACTIONS */}
         <div className="navbar__actions">
@@ -50,16 +33,7 @@ const Navbar: React.FC = () => {
 
         </div>
 
-        {/* BURGER */}
-        <button
-          className="navbar__burger"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          <span />
-          <span />
-          <span />
-        </button>
-
+        
       </div>
     </nav>
   );
