@@ -1,0 +1,263 @@
+// Comentado temporalmente hasta crear los archivos
+// @use '../../styles/mixins' as *;
+// @use '../../styles/variables' as *;
+
+// Variables locales
+$teal: #0d9488;
+$white: #ffffff;
+$gray-200: #e5e7eb;
+$gray-300: #d1d5db;
+$gray-600: #4b5563;
+
+$spacing-1: 0.25rem;
+$spacing-2: 0.5rem;
+$spacing-3: 0.75rem;
+$spacing-4: 1rem;
+$spacing-5: 1.25rem;
+$spacing-6: 1.5rem;
+$spacing-8: 2rem;
+$spacing-12: 3rem;
+$spacing-15: 3.75rem;
+$spacing-16: 4rem;
+$spacing-20: 5rem;
+
+$font-size-xs: 0.75rem;
+$font-size-base: 0.9375rem;
+$font-size-2xl: 1.5rem;
+$font-size-3xl: 1.875rem;
+
+$font-weight-bold: 700;
+$font-weight-extrabold: 800;
+
+$border-radius-lg: 0.5rem;
+$border-radius-pill: 9999px;
+
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+$transition-base: 0.3s ease;
+
+$container-md: 768px;
+
+// Mixin local
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == 'mobile' {
+    @media (min-width: 640px) { @content; }
+  }
+  @if $breakpoint == 'tablet' {
+    @media (min-width: 768px) { @content; }
+  }
+  @if $breakpoint == 'desktop' {
+    @media (min-width: 1024px) { @content; }
+  }
+}
+
+.whatis {
+  padding: $spacing-16 0;
+  
+  @include respond-to('tablet') {
+    padding: $spacing-20 0;
+  }
+
+  &__header {
+    margin-bottom: $spacing-12;
+  }
+
+  &__cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-5;
+    margin: $spacing-8 auto;
+    max-width: $container-md;
+    
+    @include respond-to('tablet') {
+      grid-template-columns: repeat(2, 1fr);
+      gap: $spacing-6;
+    }
+  }
+
+  &__card {
+    position: relative;
+    border-radius: $border-radius-lg;
+    overflow: hidden;
+    height: 200px;
+    transition: transform $transition-base;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.02);
+      
+      .whatis__overlay {
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.75) 0%,
+          rgba(0, 0, 0, 0.2) 100%
+        );
+      }
+    }
+  }
+
+  &__card-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity $transition-base;
+
+    &.loading {
+      opacity: 0;
+    }
+
+    &.loaded {
+      opacity: 1;
+    }
+  }
+
+  &__skeleton {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      $gray-200 0%,
+      $gray-300 50%,
+      $gray-200 100%
+    );
+    animation: shimmer 1.5s infinite;
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.6) 0%,
+      transparent 60%
+    );
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: $spacing-4;
+    text-align: left;
+    transition: background $transition-base;
+  }
+
+  &__tag {
+    display: inline-block;
+    background: $teal;
+    color: $white;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-bold;
+    padding: $spacing-1 $spacing-3;
+    border-radius: $border-radius-pill;
+    margin-bottom: $spacing-2;
+    align-self: flex-start;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  &__card-title {
+    color: $white;
+    font-size: $font-size-base;
+    font-weight: $font-weight-bold;
+    margin: 0;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  &__classroom {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-8;
+    align-items: center;
+    margin-top: $spacing-16;
+    text-align: left;
+
+    @include respond-to('tablet') {
+      grid-template-columns: 1fr 1fr;
+      gap: $spacing-15;
+    }
+  }
+
+  &__classroom-title {
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-extrabold;
+    line-height: 1.3;
+    margin-bottom: $spacing-6;
+    
+    @include respond-to('mobile') {
+      font-size: $font-size-2xl;
+    }
+  }
+
+  &__classroom-desc {
+    color: $gray-600;
+    
+    p {
+      margin-bottom: $spacing-4;
+      line-height: 1.75;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  &__classroom-img {
+    margin: 0;
+    
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: $border-radius-lg;
+      box-shadow: $shadow-lg;
+      transition: transform $transition-base;
+      
+      &:hover {
+        transform: scale(1.02);
+      }
+    }
+  }
+}
+
+.highlight-teal {
+  color: $teal;
+  font-weight: $font-weight-bold;
+  position: relative;
+  display: inline-block;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: $teal;
+    opacity: 0.3;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}

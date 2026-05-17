@@ -1,46 +1,47 @@
+import { useNavigate } from 'react-router-dom'  
 import InputField from './InputField'
 import AuthTabs from './AuthTabs'
 
 function LoginForm() {
+  const navigate = useNavigate()  
+
   return (
     <div className="form-container">
 
-      <h2>Welcome to lorem..!</h2>
+      <h2>Bienvenido de nuevo </h2>
 
       <AuthTabs />
 
       <p className="description">
-        Lorem Ipsum is simply dummy text
-        of the printing and typesetting industry.
+        Cada línea de código que escribes te acerca más
+        a la vida que sueñas. Inicia sesión y sigue construyendo tu futuro.
       </p>
 
       <InputField
-        label="User name"
+        label="Correo o usuario"
         type="text"
-        placeholder="Enter your User name"
+        placeholder="Ingresa tu usuario"
       />
 
       <InputField
-        label="Password"
+        label="Contraseña"
         type="password"
-        placeholder="Enter your Password"
+        placeholder="Ingresa tu contraseña"
       />
 
       <div className="remember-row">
-
         <div>
           <input type="checkbox" />
-          <span>Remember me</span>
+          <span>Recordarme</span>
         </div>
-
-        <a href="#">
-          Forgot Password?
-        </a>
-
+        <a href="#">¿Olvidaste tu contraseña?</a>
       </div>
 
-      <button className="auth-button">
-        Login
+      <button
+        className="auth-button"
+        onClick={() => navigate('/landing')}  
+      >
+        Iniciar sesión
       </button>
 
     </div>
