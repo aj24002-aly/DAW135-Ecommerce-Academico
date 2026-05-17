@@ -30,7 +30,7 @@ const Hero: React.FC = () => {
           </h1>
 
           <p className="hero__subtitle">
-            TOTC es una plataforma interactiva diseñada
+            MedalyTech es una plataforma interactiva diseñada
             para ayudarte a aprender de una manera
             más dinámica y moderna.
           </p>
