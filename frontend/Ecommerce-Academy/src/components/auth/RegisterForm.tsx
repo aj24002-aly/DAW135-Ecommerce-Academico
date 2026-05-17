@@ -5,30 +5,35 @@ function RegisterForm() {
   return (
     <div className="form-container">
 
-      <h2>Create Account</h2>
+      <h2>Crea tu cuenta </h2>
 
       <AuthTabs />
 
+      <p className="description">
+        Hoy es un gran día para empezar algo increíble.
+        Tu futuro se construye con cada paso que das.
+      </p>
+
       <InputField
-        label="Full Name"
+        label="Nombre completo"
         type="text"
-        placeholder="Enter your full name"
+        placeholder="Ingresa tu nombre completo"
       />
 
       <InputField
-        label="Email"
+        label="Correo electrónico"
         type="email"
-        placeholder="Enter your email"
+        placeholder="Ingresa tu correo"
       />
 
       <InputField
-        label="Password"
+        label="Contraseña"
         type="password"
-        placeholder="Enter your password"
+        placeholder="Ingresa tu contraseña"
       />
 
       <button className="auth-button">
-        Register
+        Registrarme
       </button>
 
     </div>
