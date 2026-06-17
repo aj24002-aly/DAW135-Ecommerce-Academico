@@ -1,0 +1,23 @@
+# Etapa 1: CONSTRUCCIÓN 
+FROM eclipse-temurin:17-jdk-alpine AS builder
+# Usa Java 17 JDK en Alpine Linux (imagen ligera) como base para compilar. La llamamos 'builder'.
+WORKDIR /app
+# Define /app como directorio de trabajo dentro del contenedor.
+COPY . .
+# Copia todo el código fuente al directorio /app del contenedor.
+RUN chmod +x ./gradlew
+# Da permisos de ejecución al script de Gradle Wrapper.
+RUN ./gradlew bootJar --no-daemon -x test
+# Compila el proyecto y genera el .jar final. --no-daemon ahorra RAM. -x test omite los tests para acelerar la build.
+
+# Etapa 2: IMAGEN FINAL (solo JRE, más liviana) 
+FROM eclipse-temurin:17-jre-alpine
+# Para producción solo necesitamos el JRE (no el JDK completo). Esto reduce el tamaño de la imagen.
+WORKDIR /app
+# Mismo directorio de trabajo en la imagen final.
+COPY --from=builder /app/build/libs/*.jar app.jar
+# Copia únicamente el .jar generado desde la etapa 'builder'. El resto del código fuente NO se incluye.
+EXPOSE 8080
+# Documenta que el contenedor escucha en el puerto 8080 (puerto por defecto de Spring Boot).
+ENTRYPOINT ["java", "-jar", "app.jar"]
+# Comando que se ejecuta al iniciar el contenedor: arranca el servidor Spring Boot.

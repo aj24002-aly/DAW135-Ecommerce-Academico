@@ -25,7 +25,7 @@
 // ── OPCIÓN B: Con estado local (sin instalar nada extra) ───────
 
 import React, { useState } from "react";
-import AdminPanel from "./admin/AdminPanel";
+import AdminPanel from "./AdminPanel";
 
 // En tu Hero agrega este botón junto a "Únete gratis":
 //

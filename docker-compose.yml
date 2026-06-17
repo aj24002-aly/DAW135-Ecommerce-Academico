@@ -1,0 +1,65 @@
+version: '3.8'
+services:
+
+  # ===== BASE DE DATOS =====
+  database:
+    image: postgres:16-alpine
+    container_name: ecommerce_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./database/Ecommerce_academico.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB} -h localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ecommerce_net
+
+  # ===== BACKEND =====
+  backend:
+    build:
+      context: ./backend/backend
+      dockerfile: Dockerfile.backend
+    container_name: ecommerce_backend
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/${POSTGRES_DB}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      SERVER_PORT: ${SERVER_PORT}
+    ports:
+      - "8080:8080"
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - ecommerce_net
+
+  # ===== FRONTEND =====
+  frontend:
+    build:
+      context: ./frontend/Ecommerce-Academy
+      dockerfile: Dockerfile.frontend
+    container_name: ecommerce_frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - ecommerce_net
+
+volumes:
+  db_data:
+
+networks:
+  ecommerce_net:
+    driver: bridge

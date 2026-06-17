@@ -1,8 +1,3 @@
--- Crear base de datos
-CREATE DATABASE ecommerce_academico;
-
--- Conectarse a la base de datos
-\c ecommerce_academico;
 
 -- Tabla usuarios
 CREATE TABLE usuarios (

@@ -7,10 +7,16 @@ import org.springframework.context.annotation.Configuration;
 public class DotenvConfig {
 
     static {
-        Dotenv dotenv = Dotenv.load();
+        Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
 
-        System.setProperty("DB_USER", dotenv.get("DB_USER"));
-        System.setProperty("DB_PASS", dotenv.get("DB_PASS"));
-        System.setProperty("DB_NAME", dotenv.get("DB_NAME"));
+        setIfPresent("DB_USER", dotenv.get("DB_USER"));
+        setIfPresent("DB_PASS", dotenv.get("DB_PASS"));
+        setIfPresent("DB_NAME", dotenv.get("DB_NAME"));
+    }
+
+    private static void setIfPresent(String key, String value) {
+        if (value != null) {
+            System.setProperty(key, value);
+        }
     }
 }
