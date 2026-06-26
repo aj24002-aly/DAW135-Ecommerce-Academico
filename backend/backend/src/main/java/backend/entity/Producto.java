@@ -15,7 +15,17 @@ public class Producto {
     private Long id;
 
     private String nombre;
-    private String descripcion;
+
+    private String instructor;
+
+    private String categoria;
+
+    private String estado;
+
+    private Integer duracion;
+
     private Double precio;
-    private String tipo;
+
+    @Column(length = 1000)
+    private String descripcion;
 }

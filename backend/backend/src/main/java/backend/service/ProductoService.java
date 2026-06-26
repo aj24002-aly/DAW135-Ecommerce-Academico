@@ -40,13 +40,17 @@ public class ProductoService {
 
     // UPDATE
     public ProductoDTO actualizar(Long id, ProductoDTO dto) {
+
         Producto p = repo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
         p.setNombre(dto.getNombre());
-        p.setDescripcion(dto.getDescripcion());
+        p.setInstructor(dto.getInstructor());
+        p.setCategoria(dto.getCategoria());
+        p.setEstado(dto.getEstado());
+        p.setDuracion(dto.getDuracion());
         p.setPrecio(dto.getPrecio());
-        p.setTipo(dto.getTipo());
+        p.setDescripcion(dto.getDescripcion());
 
         return toDTO(repo.save(p));
     }
@@ -56,24 +60,37 @@ public class ProductoService {
         repo.deleteById(id);
     }
 
-    // MAPPER
+    // DTO
     private ProductoDTO toDTO(Producto p) {
+
         ProductoDTO dto = new ProductoDTO();
+
         dto.setId(p.getId());
         dto.setNombre(p.getNombre());
-        dto.setDescripcion(p.getDescripcion());
+        dto.setInstructor(p.getInstructor());
+        dto.setCategoria(p.getCategoria());
+        dto.setEstado(p.getEstado());
+        dto.setDuracion(p.getDuracion());
         dto.setPrecio(p.getPrecio());
-        dto.setTipo(p.getTipo());
+        dto.setDescripcion(p.getDescripcion());
+
         return dto;
     }
 
+    // ENTITY
     private Producto toEntity(ProductoDTO dto) {
+
         Producto p = new Producto();
+
         p.setId(dto.getId());
         p.setNombre(dto.getNombre());
-        p.setDescripcion(dto.getDescripcion());
+        p.setInstructor(dto.getInstructor());
+        p.setCategoria(dto.getCategoria());
+        p.setEstado(dto.getEstado());
+        p.setDuracion(dto.getDuracion());
         p.setPrecio(dto.getPrecio());
-        p.setTipo(dto.getTipo());
+        p.setDescripcion(dto.getDescripcion());
+
         return p;
     }
 }

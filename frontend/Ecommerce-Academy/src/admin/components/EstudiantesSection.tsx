@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import type { Estudiante, TabCRUD, EstadoEstudiante } from "../types";
-import { ESTUDIANTES_MOCK } from "../mockData";
 import Badge from "./Badge";
 import StatsRow from "./StatsRow";
 import DeleteConfirm from "./DeleteConfirm";
+import axios from "axios";
 
 const ESTADOS: EstadoEstudiante[] = ["Activo", "Inactivo"];
 
@@ -142,33 +142,63 @@ const EstudianteForm: React.FC<{
 };
 
 /* ── MAIN ── */
+const API = "http://localhost:8080/api/estudiantes";
+
 const EstudiantesSection: React.FC = () => {
-  const [estudiantes, setEstudiantes] = useState<Estudiante[]>(ESTUDIANTES_MOCK);
-  const [tab, setTab]     = useState<TabCRUD>("listar");
+  const [estudiantes, setEstudiantes] = useState<Estudiante[]>([]);
+  const [tab, setTab] = useState<TabCRUD>("listar");
   const [selected, setSelected] = useState<Estudiante | null>(null);
 
   const tabs: { key: TabCRUD; label: string }[] = [
-    { key: "listar", label: "Listar" }, { key: "crear", label: "Crear" },
-    { key: "editar", label: "Editar" }, { key: "eliminar", label: "Eliminar" },
+    { key: "listar",   label: "Listar" },
+    { key: "crear",    label: "Crear" },
+    { key: "editar",   label: "Editar" },
+    { key: "eliminar", label: "Eliminar" },
   ];
 
-  const handleCrear = (data: Omit<Estudiante, "id">) => {
-    const newId = Math.max(...estudiantes.map(e => e.id)) + 1;
-    setEstudiantes(p => [...p, { id: newId, ...data }]);
-    setTab("listar");
+  useEffect(() => { cargarEstudiantes(); }, []);
+
+  const cargarEstudiantes = async () => {
+    try {
+      const response = await axios.get(API);
+      setEstudiantes(response.data);
+    } catch (error) {
+      console.error("Error al cargar estudiantes:", error);
+    }
   };
 
-  const handleEditar = (data: Omit<Estudiante, "id">) => {
-    if (!selected) return;
-    setEstudiantes(p => p.map(e => e.id === selected.id ? { ...e, ...data } : e));
-    setTab("listar");
+  const handleCrear = async (data: Omit<Estudiante, "id">) => {
+    try {
+      await axios.post(API, data);
+      await cargarEstudiantes();
+      setTab("listar");
+    } catch (error) {
+      console.error("Error al crear estudiante:", error);
+    }
   };
 
-  const handleEliminar = () => {
+  const handleEditar = async (data: Omit<Estudiante, "id">) => {
     if (!selected) return;
-    setEstudiantes(p => p.filter(e => e.id !== selected.id));
-    setSelected(null);
-    setTab("listar");
+    try {
+      await axios.put(`${API}/${selected.id}`, data);
+      await cargarEstudiantes();
+      setSelected(null);
+      setTab("listar");
+    } catch (error) {
+      console.error("Error al editar estudiante:", error);
+    }
+  };
+
+  const handleEliminar = async () => {
+    if (!selected) return;
+    try {
+      await axios.delete(`${API}/${selected.id}`);
+      await cargarEstudiantes();
+      setSelected(null);
+      setTab("listar");
+    } catch (error) {
+      console.error("Error al eliminar estudiante:", error);
+    }
   };
 
   const abrirEditar   = (e: Estudiante) => { setSelected(e); setTab("editar"); };
@@ -176,7 +206,8 @@ const EstudiantesSection: React.FC = () => {
 
   return (
     <div>
-      <div style={{ display: "flex", gap: 4, marginBottom: 16, background: "#fff", border: "0.5px solid #e8eaed", borderRadius: 10, padding: 4, width: "fit-content" }}>
+      <div style={{ display: "flex", gap: 4, marginBottom: 16, background: "#fff",
+        border: "0.5px solid #e8eaed", borderRadius: 10, padding: 4, width: "fit-content" }}>
         {tabs.map(t => (
           <button key={t.key} onClick={() => setTab(t.key)} style={{
             padding: "6px 16px", borderRadius: 7, fontSize: 12, cursor: "pointer", border: "none",
@@ -187,9 +218,9 @@ const EstudiantesSection: React.FC = () => {
         ))}
       </div>
 
-      {tab === "listar"   && <EstudiantesListar estudiantes={estudiantes} onEditar={abrirEditar} onEliminar={abrirEliminar} />}
-      {tab === "crear"    && <EstudianteForm modo="crear" inicial={EMPTY} onGuardar={handleCrear} onCancelar={() => setTab("listar")} />}
-      {tab === "editar"   && (selected
+      {tab === "listar" && <EstudiantesListar estudiantes={estudiantes} onEditar={abrirEditar} onEliminar={abrirEliminar} />}
+      {tab === "crear"  && <EstudianteForm modo="crear" inicial={EMPTY} onGuardar={handleCrear} onCancelar={() => setTab("listar")} />}
+      {tab === "editar" && (selected
         ? <EstudianteForm modo="editar" inicial={selected} onGuardar={handleEditar} onCancelar={() => setTab("listar")} />
         : <EstudiantesListar estudiantes={estudiantes} onEditar={abrirEditar} onEliminar={abrirEliminar} />
       )}

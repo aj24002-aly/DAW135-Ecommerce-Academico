@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping("/productos")
+@CrossOrigin(origins = "http://localhost") 
 @Tag(name = "Productos", description = "Operaciones sobre productos")
 public class ProductoController {
 

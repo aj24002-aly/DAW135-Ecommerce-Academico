@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import type { Curso, TabCRUD, EstadoCurso } from "../types";
-import { CURSOS_MOCK } from "../mockData";
+import { listarCursos, crearCurso, actualizarCurso, eliminarCurso } from "../../data/cursoApi";
 import Badge from "./Badge";
 import StatsRow from "./StatsRow";
 import DeleteConfirm from "./DeleteConfirm";
@@ -142,40 +142,85 @@ const CursoForm: React.FC<{
 };
 
 /* ── MAIN ── */
+/* ── MAIN ── */
 const CursosSection: React.FC = () => {
-  const [cursos, setCursos] = useState<Curso[]>(CURSOS_MOCK);
-  const [tab, setTab]       = useState<TabCRUD>("listar");
+  const [cursos, setCursos] = useState<Curso[]>([]);
+
+  useEffect(() => {
+    listarCursos().then(data =>
+      setCursos(
+        data.map(d => ({
+          ...d,
+          estado: d.estado as EstadoCurso,
+        }))
+      )
+    );
+  }, []);
+
+  const [tab, setTab] = useState<TabCRUD>("listar");
   const [selected, setSelected] = useState<Curso | null>(null);
 
   const tabs: { key: TabCRUD; label: string }[] = [
-    { key: "listar",   label: "Listar"   },
-    { key: "crear",    label: "Crear"    },
-    { key: "editar",   label: "Editar"   },
+    { key: "listar", label: "Listar" },
+    { key: "crear", label: "Crear" },
+    { key: "editar", label: "Editar" },
     { key: "eliminar", label: "Eliminar" },
   ];
 
-  const handleCrear = (data: Omit<Curso, "id">) => {
-    const newId = Math.max(...cursos.map(c => c.id)) + 1;
-    setCursos(p => [...p, { id: newId, ...data }]);
+  const handleCrear = async (data: Omit<Curso, "id">) => {
+    const nuevo = await crearCurso(data);
+
+    setCursos(prev => [
+      ...prev,
+      {
+        ...nuevo,
+        estado: nuevo.estado as EstadoCurso,
+      },
+    ]);
+
     setTab("listar");
   };
 
-  const handleEditar = (data: Omit<Curso, "id">) => {
+  const handleEditar = async (data: Omit<Curso, "id">) => {
     if (!selected) return;
-    setCursos(p => p.map(c => c.id === selected.id ? { ...c, ...data } : c));
-    setTab("listar");
-  };
 
-  const handleEliminar = () => {
-    if (!selected) return;
-    setCursos(p => p.filter(c => c.id !== selected.id));
+    const actualizado = await actualizarCurso(selected.id, data);
+
+    setCursos(prev =>
+      prev.map(c =>
+        c.id === selected.id
+          ? {
+              ...actualizado,
+              estado: actualizado.estado as EstadoCurso,
+            }
+          : c
+      )
+    );
+
     setSelected(null);
     setTab("listar");
   };
 
-  const abrirEditar = (c: Curso) => { setSelected(c); setTab("editar"); };
-  const abrirEliminar = (c: Curso) => { setSelected(c); setTab("eliminar"); };
+  const handleEliminar = async () => {
+    if (!selected) return;
 
+    await eliminarCurso(selected.id);
+
+    setCursos(prev => prev.filter(c => c.id !== selected.id));
+
+    setSelected(null);
+    setTab("listar");
+  };
+
+  const abrirEditar = (c: Curso) => {
+    setSelected(c);
+    setTab("editar");
+  };
+
+  const abrirEliminar = (c: Curso) => {
+    setSelected(c);
+    setTab("eliminar");
+  };
   return (
     <div>
       {/* TABS */}
